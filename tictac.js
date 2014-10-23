@@ -4,7 +4,7 @@ var egg=0;
 var arr=[];
 var win=0;
 function init(){
-	console.log("fuck off");
+	console.log("hi whats up ");
 }
 
 function random1(){
