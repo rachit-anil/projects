@@ -1,0 +1,163 @@
+<html>
+<head>
+	<style>
+	body{
+		background-color: cyan;
+	}
+	#text1{
+		margin-left: -10%;
+		width: 50%;
+	}
+#box{
+	border-radius: 10%;
+	background-color: green;
+	box-shadow: 10px 10px gray;
+	margin-left: 40%;
+	border-style: inset;
+	width: 20%;
+	height: 80%
+
+}
+	</style>
+	<script src="jquery.min.js"></script>
+	<script>
+	var count1=0;
+			var arr=[];
+			var arr1=[];
+			var arr2=[];
+			var arr3=[];
+
+	var accenturedb;
+	var database1="";
+	var count=2;
+	var rachit="";
+	var table1="";
+	$().ready(init);
+	var arr=[];
+	
+function init(){
+	console.log("enter database name");
+	/*$("#database").defaultValue("India");*/
+	
+/*	console.log("hi",database1);*/
+	
+}
+function store(){
+	var country={
+		name1:$("#name1").val(),
+		city1:$("#city1").val(),
+		city2:$("#city2").val(),
+		city3:$("#city3").val()
+}
+	var txn=accenturedb.transaction(table1,"readwrite");
+	var pplstore=txn.objectStore(table1);
+	txn.oncomplete=function(){
+		$("#message").html("added successfully");
+	}
+	txn.onerror=function(){
+		$("message").html("error");
+	}
+	pplstore.add(country);
+
+}
+function read(){
+	var txn=accenturedb.transaction(table1,"readonly");
+    var pplstore=txn.objectStore(table1);
+    var cursor=pplstore.openCursor();
+    
+			cursor.onsuccess = function(e){
+				var records = e.target.result;
+			     if(records){
+					
+					    arr[count1]= records.value["name1"];
+						arr1[count1]=records.value["city1"];
+						arr2[count1]=records.value["city2"];
+						arr3[count1]=records.value["city3"];
+						for(var i=0;i<arr.length;i++){
+						console.log(arr[i]+",");
+						console.log(arr1[i]+",");
+						console.log(arr2[i]+",");
+						console.log(arr3[i]);
+					}
+
+
+					records.continue();
+				}else{
+					
+					/*$("#results").html(rachit);*/
+				}
+				
+
+			}
+		}
+
+function createdb(){
+	database1=$("#database").val();
+	var request=indexedDB.open(database1,count);
+	request.onsuccess=function(){
+		/*accenturedb=request.result;*/
+		$("#message").html("success");
+		count++;
+		/*console.log(count);*/
+	};
+	
+	request.onerror=function(){
+		$("#message").html("error");
+	}
+   
+    request.onupgradeneeded=function(e){
+    	
+    	accenturedb=e.target.result;
+    	table1=$("#tablename").val();
+    	accenturedb.createObjectStore(table1,{keyPath:"name1"});
+    }
+
+
+}
+
+/*function ajaxcall(){
+	console.log(rachit);
+	arr.push(rachit);
+	for(var i=0;i<arr.length;i++)
+	{
+		console.log("hi"+arr[i]);
+	}
+	/*createtable();*/
+
+/*function createtable(){
+app+="<td>"+arr[0]+"</td><td>"+arr[1]+"</td><td>"+arr[2]+"</td>";
+$("#bodee")=app;
+}*/
+	</script>
+</head>
+<body>
+	<div id="box">
+		<center>
+			<h1 style="font-size:20px">INDEXED DB CREATION</h1>
+			<div id="text1">
+	<input type="text" id="database" placeholder="name of database"><br>
+	<input type="text" id="tablename" placeholder="tablename"><br>
+	<input type="name" id="name1" placeholder="country{keyvalue}"><br>
+	<input type="age" id="city1" placeholder="city1"> <br>
+	<input type="age" id="city2" placeholder="city2"> <br>
+	<input type="age" id="city3" placeholder="city3"> <br><br>
+	</div>
+	<input type="button" value="store" id="store" onclick="store()"><br><br>
+	<input type="button" value="read" id="read" onclick="read()"><br><br>
+	<input type="button" value="create database" onclick="createdb()">
+	  <h1 id="message"></h1>
+
+	    </center>
+	</div>
+	<table id="results">
+		<tr>
+
+			<th>city1</th>
+			<th>city2</th>
+			<th>city3</th>
+
+		</tr>
+		<tbody="bodee"></tbody>
+	</table>
+</body>
+</html>
