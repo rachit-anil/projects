@@ -1,0 +1,21 @@
+#box{
+	margin-top: 10%;
+	margin-left: 35%;
+	width: 330px;
+	height: 330px;
+	border:1px solid white;
+        
+}
+
+input{
+	color: white;
+	background-color:cyan;
+	padding: 20px;
+	width: 100px;
+	height:100px;
+        font-size:70px;
+}
+
+#score{
+	float: left;
+}
