@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script src="jquery.min.js"></script>
+	<script>
+    var xhr;
+     function fetch(){
+     	xhr= new XMLHttpRequest;
+     	url="airports.json";
+     	xhr.open("POST",url);
+     	xhr.onreadystatechange=callme;
+     	xhr.send();
+     }
+     function callme(){
+     	if(xhr.readyState===4){
+     		var response=xhr.responseText;
+     		console.log(response);
+     	}
+     }
+	</script>
+</head>
+<body>
+<input type="button" id="btn1"  onclick="fetch()" value="fetch">
+</body>
+</html>
